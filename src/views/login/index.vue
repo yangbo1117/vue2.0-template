@@ -94,7 +94,15 @@ export default {
       immediate: true
     }
   },
+  created() {
+    // this.fetchData()
+  },
   methods: {
+    fetchData() {
+      getList().then(response => {
+        this.list = response.data.items
+      })
+    },
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -111,6 +119,10 @@ export default {
           this.loading = true
           this.$store.dispatch('user/login', this.loginForm).then(() => {
             this.$router.push({ path: this.redirect || '/' })
+            this.$message({
+              message: '登录成功',
+              type: 'success'
+            });
             this.loading = false
           }).catch(() => {
             this.loading = false
