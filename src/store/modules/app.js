@@ -1,4 +1,5 @@
 import Cookies from 'js-cookie'
+import types from "../types"
 
 const state = {
   sidebar: {
@@ -9,7 +10,7 @@ const state = {
 }
 
 const mutations = {
-  TOGGLE_SIDEBAR: state => {
+  [types.TOGGLE_SIDEBAR]: state => {
     state.sidebar.opened = !state.sidebar.opened
     state.sidebar.withoutAnimation = false
     if (state.sidebar.opened) {
@@ -18,25 +19,25 @@ const mutations = {
       Cookies.set('sidebarStatus', 0)
     }
   },
-  CLOSE_SIDEBAR: (state, withoutAnimation) => {
+  [types['CLOSE_SIDEBAR']]: (state, withoutAnimation) => {
     Cookies.set('sidebarStatus', 0)
     state.sidebar.opened = false
     state.sidebar.withoutAnimation = withoutAnimation
   },
-  TOGGLE_DEVICE: (state, device) => {
+  [types.TOGGLE_DEVICE]: (state, device) => {
     state.device = device
   }
 }
 
 const actions = {
   toggleSideBar({ commit }) {
-    commit('TOGGLE_SIDEBAR')
+    commit(types.TOGGLE_SIDEBAR)
   },
   closeSideBar({ commit }, { withoutAnimation }) {
-    commit('CLOSE_SIDEBAR', withoutAnimation)
+    commit(types.CLOSE_SIDEBAR, withoutAnimation)
   },
   toggleDevice({ commit }, device) {
-    commit('TOGGLE_DEVICE', device)
+    commit(types.TOGGLE_DEVICE, device)
   }
 }
 

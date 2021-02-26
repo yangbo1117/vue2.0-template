@@ -13,6 +13,14 @@ export default {
     ...mapGetters([
       'name'
     ])
+  },
+  created() {
+    this.fetchData()
+  },
+  methods: {
+    fetchData: function(){
+      this.$store.dispatch('')
+    },
   }
 }
 </script>

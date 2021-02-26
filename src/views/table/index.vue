@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-table
       v-loading="listLoading"
-      :data="list"
+      :data="list.items"
       element-loading-text="Loading"
       border
       fit
@@ -44,7 +44,8 @@
 </template>
 
 <script>
-import { getList } from '@/api/table'
+// import { reqList } from '@/api/table'
+import { mapGetters } from 'vuex'
 
 export default {
   filters: {
@@ -59,20 +60,27 @@ export default {
   },
   data() {
     return {
-      list: null,
-      listLoading: true
+      // list: null,
+      listLoading: false
     }
+  },
+  computed: {
+    ...mapGetters([
+      'list'
+    ])
   },
   created() {
     this.fetchData()
   },
   methods: {
     fetchData() {
-      this.listLoading = true
-      getList().then(response => {
-        this.list = response.data.items
-        this.listLoading = false
-      })
+      // this.listLoading = true
+      // reqList().then(response => {
+      //   console.log(response.data.items)
+      //   this.list = response.data.items
+      //   this.listLoading = false
+      // })
+      this.$store.dispatch("table/getList");
     }
   }
 }

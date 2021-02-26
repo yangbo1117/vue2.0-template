@@ -64,6 +64,13 @@ Mock.mock('/vue-admin-template/user/logout', "post", (req, res) => {
     }
 });
 
+// author: "name"
+// display_time: "2000-04-08 11:30:12"
+// id: "450000197607228112"
+// pageviews: 3150
+// status: "deleted"
+// title: "Orjuwww icyll tili ewhm vlygqt hsyzo rrhnfigqfe srcwnhqts krwaij ovsjmwz gulsotco eainh wuez vwgk pivoow mwtrkg hteazpo vpubvbmn wyqxjwlw."
+
 const data = Mock.mock({
     'items|30': [{
         id: '@id',
@@ -85,6 +92,18 @@ Mock.mock('/vue-admin-template/table/list', "get", (req, res) => {
         }
     }
 });
+
+
+Mock.mock('/vue-admin-template/table/mocktest', 'get', (req, res) => {
+    const items = node.items;
+    return {
+        code: 20000,
+        data: {
+            total: items,length,
+            items,
+        }
+    }
+})
 
 
 

@@ -1,6 +1,7 @@
-import { login, logout, getInfo } from '@/api/user'
+import { login, logout, getInfo, register } from '@/api/user'
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
+import types from '../types';
 
 const getDefaultState = () => {
   return {
@@ -13,16 +14,16 @@ const getDefaultState = () => {
 const state = getDefaultState()
 
 const mutations = {
-  RESET_STATE: (state) => {
+  [types.RESET_STATE]: (state) => {
     Object.assign(state, getDefaultState())
   },
-  SET_TOKEN: (state, token) => {
+  [types.SET_TOKEN]: (state, token) => {
     state.token = token
   },
-  SET_NAME: (state, name) => {
+  [types.SET_NAME]: (state, name) => {
     state.name = name
   },
-  SET_AVATAR: (state, avatar) => {
+  [types.SET_AVATAR]: (state, avatar) => {
     state.avatar = avatar
   }
 }
@@ -34,7 +35,7 @@ const actions = {
     return new Promise((resolve, reject) => {
       login({ username: username.trim(), password: password }).then(response => {
         const { data } = response
-        commit('SET_TOKEN', data.token)
+        commit(types.SET_TOKEN, data.token)
         setToken(data.token)
         resolve()
       }).catch(error => {
@@ -52,9 +53,7 @@ const actions = {
         if (!data) {
           return reject('密码错误，请重新登录')
         }
-
         const { name, avatar } = data
-
         commit('SET_NAME', name)
         commit('SET_AVATAR', avatar)
         resolve(data)
@@ -85,6 +84,23 @@ const actions = {
       commit('RESET_STATE')
       resolve()
     })
+  },
+
+  //rgister
+  register({ commit }, userInfo) {
+    const { username, password, checkPassword } = userInfo;
+    return new Promise((resolve, reject) => {
+        register({
+          username: username.trim(),
+          password,
+          checkPassword,
+        }).then(res => {
+          const { data } = res;
+          resolve(data)
+        }).catch(error => {
+          reject(error)
+        })
+    })
   }
 }
 
@@ -92,6 +108,6 @@ export default {
   namespaced: true,
   state,
   mutations,
-  actions
+  actions,
 }
 
